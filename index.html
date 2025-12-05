@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Drink Animate</title>
+</head>
+<body>
+    <!-- Botão de Login fixo -->
+    <button id="loginButton" class="login-button">Iniciar Sessão</button>
+
+    <!-- Seção 1: Carrossel Principal -->
+    <section class="carousel">
+        <div class="item active" style="--background: #EA3D41">
+            <div class="title">Morango</div>
+            <img src="./img/Morango-refrigerante-foregroundBlur.png" alt="Fruta de morango desfocada" class="fruit">
+            <img src="./img/Morango-refrigerante.png" alt="Lata de refrigerante de morango" class="drink">
+        </div>
+        <div class="item" style="--background: #2D5643">
+            <div class="title">Abacate</div>
+            <img src="./img/Abacate-refrigerante-foregroundBlur.png" alt="Fruta de abacate desfocada" class="fruit">
+            <img src="./img/Abacate-refrigerante.png" alt="Lata de refrigerante de abacate" class="drink">
+        </div>
+        <div class="item" style="--background: #E7A043">
+            <div class="title">Laranja</div>
+            <img src="./img/Laranja-refrigerante-foregroundBlur.png" alt="Fruta de laranja desfocada" class="fruit">
+            <img src="./img/Laranja-refrigerante.png" alt="Lata de refrigerante de laranja" class="drink">
+        </div>
+        <div class="arrow">
+            <button id="prev" aria-label="Item anterior"><</button>
+            <button id="next" aria-label="Próximo item">></button>
+        </div>
+        <div class="gradient-divider"></div>
+    </section>
+
+    <!-- Seção 2: Texto + Carrossel de Bebidas -->
+    <section class="new-page">
+        <div class="content-wrapper">
+            <div class="text-content" data-active="morango">
+                <h2>Sabores Artesanais,<br>Experiência Única</h2>
+                <p>
+                    Cada bebida da Drink Animate é cuidadosamente elaborada com frutas frescas e ingredientes naturais. 
+                    Nossa fórmula exclusiva combina efervescência suave e sabor intenso, criando uma experiência sensorial 
+                    que equilibra doçura e acidez. Perfeita para momentos de prazer autêntico.
+                </p>
+            </div>
+            <div class="beverage-carousel">
+                <div class="slide active">
+                    <img src="./img/Morango-refrigerante.png" alt="Refrigerante de Morango">
+                </div>
+                <div class="slide">
+                    <img src="./img/Abacate-refrigerante.png" alt="Refrigerante de Abacate">
+                </div>
+                <div class="slide">
+                    <img src="./img/Laranja-refrigerante.png" alt="Refrigerante de Laranja">
+                </div>
+            </div>
+        </div>
+        <div class="section-divider"></div>
+    </section>
+
+    <!-- Seção 3: História da Marca -->
+    <section class="history-page">
+        <div class="history-wrapper">
+            <div class="history-text">
+                <h2>Nossa História</h2>
+                <p>
+                    Fundada em 2020 no coração de São Paulo, a Drink Animate nasceu da paixão por 
+                    combinar sabores naturais com inovação. Tudo começou em uma pequena cozinha 
+                    experimental, onde testávamos receitas artesanais até encontrar o equilíbrio 
+                    perfeito entre acidez, doçura e efervescência.
+                </p>
+                <p>
+                    Hoje, nossa loja na Avenida Paulista é um ponto de encontro para amantes de 
+                    bebidas premium. Cada frasco é produzido em pequenos lotes, garantindo 
+                    frescor e qualidade que você pode sentir em cada gole.
+                </p>
+            </div>
+            <div class="history-carousel">
+                <div class="history-slide active">
+                    <img src="./img/loja-1.png" alt="Loja Drink Animate - Interior">
+                </div>
+                <div class="history-slide">
+                    <img src="./img/loja-2.png" alt="Loja Drink Animate - Balconistas">
+                </div>
+                <div class="history-slide">
+                    <img src="./img/loja-3.png" alt="Loja Drink Animate - Produção">
+                </div>
+                <div class="history-slide">
+                    <img src="./img/loja-4.png" alt="Loja Drink Animate - Clientes">
+                </div>
+            </div>
+        </div>
+        <div class="history-divider"></div>
+    </section>
+
+    <!-- Seção 4: Localização com Mapa-Múndi -->
+    <section class="location-page">
+        <div class="location-wrapper">
+            <div class="map-container" id="world-map"></div>
+            <div class="location-text">
+                <h2>Visite Nossa Loja</h2>
+                <p>
+                    Estamos localizados no coração de São Paulo, na Avenida Paulista. 
+                    Um espaço moderno e acolhedor, projetado para você experimentar 
+                    nossas bebidas artesanais em um ambiente premium.
+                </p>
+                <div class="address">
+                    <p><strong>Endereço:</strong> Av. Paulista, 1000 - Bela Vista, São Paulo</p>
+                    <p><strong>Horário:</strong> Segunda a Sábado, 10h às 20h</p>
+                    <p><strong>Telefone:</strong> (11) 99999-9999</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Botão de Novidades (inserido logo acima do footer) -->
+    <div class="novidades-wrapper">
+        <button id="btnNovidades" class="novidades-btn">
+            Novidades
+        </button>
+    </div>
+
+    <!-- Rodapé Dinâmico COMPLETO + ÍCONES OFICIAIS -->
+    <footer class="dynamic-footer" data-active="morango" id="dynamicFooter">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>Drink Animate</h3>
+                <p>Av. Paulista, 1000 - Bela Vista<br>São Paulo, SP</p>
+                <p>Segunda a Sábado: 10h–20h</p>
+            </div>
+
+            <!-- Redes Sociais Atualizadas -->
+            <div class="footer-links">
+                <h4>Redes Sociais</h4>
+                <div class="social-icons">
+
+                    <!-- Instagram -->
+                    <a href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm4.8-9.9a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1z"
+                                  fill="currentColor"/>
+                        </svg>
+                    </a>
+
+                    <!-- Facebook -->
+                    <a href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-3h2.5V9.5c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.4H15c-1.2 0-1.6.8-1.6 1.6V12H17l-.4 3h-2.2v7A10 10 0 0 0 22 12z"
+                                  fill="currentColor"/>
+                        </svg>
+                    </a>
+
+                    <!-- X / Twitter -->
+                    <a href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M18.9 3H15l-3.6 4.8L7.8 3H3l6.3 8.2L3 21h3.9l3.6-5 3.5 5H21l-6.2-8z"
+                                  fill="currentColor"/>
+                        </svg>
+                    </a>
+
+                    <!-- YouTube 
+                    <a href="#" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                            <path d="M21.8 8s-.2-1.6-.8-2.3c-.8-.9-1.6-.9-2-1C15.6 4.3 12 4.3 12 4.3h-.1s-3.6 0-7 0.4c-.4.1-1.2.1-2 1-.6.7-.8 2.3-.8 2.3S2 9.8 2 11.6v1.6c0 1.8.2 3.6.2 3.6s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9 1.8.2 7 .3 7 .3s3.6 0 7-.3c.4-.1 1.2-.1 2-1 .6-.7.8-2.3.8-2.3s.2-1.8.2-3.6v-1.6c0-1.8-.2-3.6-.2-3.6zM10 15.5v-7l6 3.5-6 3.5z"
+                                  fill="currentColor"/>
+                        </svg>
+                    </a>-->
+
+                    <!-- TikTok -->
+                    <a href="#" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M12.7 2h2.6c.1 1 .5 2 1.2 2.8.7.7 1.7 1.1 2.8 1.2v2.7c-1.8 0-3.5-.6-4.9-1.7v7.4a5.4 5.4 0 1 1-5.4-5.4c.4 0 .8 0 1.1.1v2.7c-.3-.1-.7-.1-1.1-.1a2.7 2.7 0 1 0 2.7 2.7V2z"
+                                  fill="currentColor"/>
+                        </svg>
+                    </a>
+
+                    <!-- LinkedIn 
+                    <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M4.98 3.5A2.49 2.49 0 1 0 5 8.48 2.49 2.49 0 0 0 4.98 3.5zM3 9h4v12H3zm7 0h3.7v1.6h.1c.5-.9 1.7-1.8 3.5-1.8 3.7 0 4.7 2.3 4.7 5.4V21h-4v-5.4c0-1.3 0-3-1.8-3-1.8 0-2.1 1.4-2.1 2.9V21h-4z"
+                                  fill="currentColor"/>
+                        </svg>
+                    </a>-->
+
+                </div>
+            </div>
+
+            <!-- Contato -->
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p>+351 123 456 789</p>
+                <p>contato@drinkanimate.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Drink Animate. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Overlays de Login/Signup -->
+    <div id="loginOverlay" class="login-overlay hidden">
+        <div class="login-container">
+            <button id="closeLogin" class="close-btn">✕</button>
+            <h2>Welcome back to Drink Animate!</h2>
+            <p>Sign in to continue</p>
+            <button class="social-btn google">
+                <svg width="18" height="18" viewBox="0 0 24 24" class="social-icon">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+            </button>
+            <button class="social-btn facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" class="social-icon">
+                    <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                Continue with Facebook
+            </button>
+            <button class="social-btn microsoft">
+                <svg width="18" height="18" viewBox="0 0 24 24" class="social-icon">
+                    <path fill="#F25022" d="M1 1h10v10H1z"/>
+                    <path fill="#7FBA00" d="M13 1h10v10H13z"/>
+                    <path fill="#00A4EF" d="M1 13h10v10H1z"/>
+                    <path fill="#FFB900" d="M13 13h10v10H13z"/>
+                </svg>
+                Continue with Microsoft
+            </button>
+            <div class="divider">or</div>
+            <label for="email-login" class="visually-hidden">Email</label>
+            <input type="email" id="email-login" placeholder="you@example.com" class="form-control" />
+            <button class="continue-btn">Continue</button>
+            <p class="signup-link">
+                Don't have an account? <a href="#" id="createAccount">Create one</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="signupOverlay" class="login-overlay hidden">
+        <div class="login-container">
+            <button id="closeSignup" class="close-btn">✕</button>
+            <h2>Create an account</h2>
+            <p>Join Drink Animate today</p>
+            <label for="email-signup" class="visually-hidden">Email</label>
+            <input type="email" id="email-signup" placeholder="Email" class="form-control" />
+            <label for="password-signup" class="visually-hidden">Password</label>
+            <input type="password" id="password-signup" placeholder="Password" class="form-control" />
+            <button class="continue-btn">Create an account</button>
+            <button class="social-btn google">
+                <svg width="18" height="18" viewBox="0 0 24 24" class="social-icon">...</svg>
+                Sign up with Google
+            </button>
+            <p class="signup-link">
+                Already have an account? <a href="#" id="loginFromSignup">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
