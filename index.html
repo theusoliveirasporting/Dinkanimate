@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="js-loading">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="light">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,22 +12,40 @@
 <body>
     <button id="loginButton" class="login-button">Iniciar Sessão</button>
 
-    <!-- Seção 1: Carrossel Principal -->
+    <!-- Seção 1: Carrossel Principal – COM WEBP + FALLBACK -->
     <section class="carousel">
         <div class="item active" style="--background: #EA3D41">
             <div class="title">Morango</div>
-            <img src="./img/Morango-refrigerante-foregroundBlur.png" alt="Fruta de morango desfocada" class="fruit">
-            <img src="./img/Morango-refrigerante.png" alt="Lata de refrigerante de morango" class="drink">
+            <picture>
+                <source srcset="./img/optimized/Morango-refrigerante-foregroundBlur.webp" type="image/webp">
+                <img src="./img/Morango-refrigerante-foregroundBlur.png" alt="Fruta de morango desfocada" class="fruit" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="./img/optimized/Morango-refrigerante.webp" type="image/webp">
+                <img src="./img/Morango-refrigerante.png" alt="Lata de refrigerante de morango" class="drink" loading="lazy">
+            </picture>
         </div>
         <div class="item" style="--background: #2D5643">
             <div class="title">Abacate</div>
-            <img src="./img/Abacate-refrigerante-foregroundBlur.png" alt="Fruta de abacate desfocada" class="fruit">
-            <img src="./img/Abacate-refrigerante.png" alt="Lata de refrigerante de abacate" class="drink">
+            <picture>
+                <source srcset="./img/optimized/Abacate-refrigerante-foregroundBlur.webp" type="image/webp">
+                <img src="./img/Abacate-refrigerante-foregroundBlur.png" alt="Fruta de abacate desfocada" class="fruit" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="./img/optimized/Abacate-refrigerante.webp" type="image/webp">
+                <img src="./img/Abacate-refrigerante.png" alt="Lata de refrigerante de abacate" class="drink" loading="lazy">
+            </picture>
         </div>
         <div class="item" style="--background: #E7A043">
             <div class="title">Laranja</div>
-            <img src="./img/Laranja-refrigerante-foregroundBlur.png" alt="Fruta de laranja desfocada" class="fruit">
-            <img src="./img/Laranja-refrigerante.png" alt="Lata de refrigerante de laranja" class="drink">
+            <picture>
+                <source srcset="./img/optimized/Laranja-refrigerante-foregroundBlur.webp" type="image/webp">
+                <img src="./img/Laranja-refrigerante-foregroundBlur.png" alt="Fruta de laranja desfocada" class="fruit" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="./img/optimized/Laranja-refrigerante.webp" type="image/webp">
+                <img src="./img/Laranja-refrigerante.png" alt="Lata de refrigerante de laranja" class="drink" loading="lazy">
+            </picture>
         </div>
         <div class="arrow">
             <button id="prev" aria-label="Item anterior"><</button>
@@ -49,13 +67,22 @@
             </div>
             <div class="beverage-carousel">
                 <div class="slide active">
-                    <img src="./img/Morango-refrigerante.png" alt="Refrigerante de Morango">
+                    <picture>
+                        <source srcset="./img/optimized/Morango-refrigerante.webp" type="image/webp">
+                        <img src="./img/Morango-refrigerante.png" alt="Refrigerante de Morango" loading="lazy">
+                    </picture>
                 </div>
                 <div class="slide">
-                    <img src="./img/Abacate-refrigerante.png" alt="Refrigerante de Abacate">
+                    <picture>
+                        <source srcset="./img/optimized/Abacate-refrigerante.webp" type="image/webp">
+                        <img src="./img/Abacate-refrigerante.png" alt="Refrigerante de Abacate" loading="lazy">
+                    </picture>
                 </div>
                 <div class="slide">
-                    <img src="./img/Laranja-refrigerante.png" alt="Refrigerante de Laranja">
+                    <picture>
+                        <source srcset="./img/optimized/Laranja-refrigerante.webp" type="image/webp">
+                        <img src="./img/Laranja-refrigerante.png" alt="Refrigerante de Laranja" loading="lazy">
+                    </picture>
                 </div>
             </div>
         </div>
@@ -81,16 +108,16 @@
             </div>
             <div class="history-carousel">
                 <div class="history-slide active">
-                    <img src="./img/loja-1.png" alt="Loja Drink Animate - Interior">
+                    <img src="./img/loja-1.png" alt="Loja Drink Animate - Interior" loading="lazy">
                 </div>
                 <div class="history-slide">
-                    <img src="./img/loja-2.png" alt="Loja Drink Animate - Balconistas">
+                    <img src="./img/loja-2.png" alt="Loja Drink Animate - Balconistas" loading="lazy">
                 </div>
                 <div class="history-slide">
-                    <img src="./img/loja-3.png" alt="Loja Drink Animate - Produção">
+                    <img src="./img/loja-3.png" alt="Loja Drink Animate - Produção" loading="lazy">
                 </div>
                 <div class="history-slide">
-                    <img src="./img/loja-4.png" alt="Loja Drink Animate - Clientes">
+                    <img src="./img/loja-4.png" alt="Loja Drink Animate - Clientes" loading="lazy">
                 </div>
             </div>
         </div>

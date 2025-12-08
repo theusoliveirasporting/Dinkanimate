@@ -17,6 +17,12 @@ body {
     scroll-behavior: smooth;
 }
 
+/* Evita FOUC em mobile lento */
+.js-loading .item,
+.js-loading .title {
+    opacity: 0 !important;
+}
+
 /* Botão de Login Fixo */
 .login-button {
     position: fixed;
@@ -40,11 +46,11 @@ body {
     background: linear-gradient(135deg, var(--background), rgba(0,0,0,0.4));
 }
 
-/* Seção 1: Carrossel Principal — CORRIGIDO PARA .fruit 5x maior */
+/* Seção 1: Carrossel Principal – MOBILE OPTIMIZED */
 .carousel {
-    position: relative;
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
+    position: relative;
 }
 
 .item {
@@ -64,39 +70,41 @@ body {
     opacity: 1;
 }
 
-/* Título */
 .title {
-    font-size: clamp(2.8rem, 18vw, 9rem);
+    font-size: clamp(2.2rem, 16vw, 8rem);
     font-weight: bold;
     text-align: center;
     position: absolute;
     left: 50%;
-    top: 10%;
+    top: 8%;
     transform: translate(-50%, -50%);
-    opacity: 0;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 90vw;
     overflow: hidden;
-    z-index: 5;
+    text-overflow: ellipsis;
+    max-width: 95vw;
+    z-index: 10;
+    opacity: 0;
+    will-change: opacity;
+    backface-visibility: hidden;
 }
 
 .item.active .title {
     animation: fadeInTitle 0.7s ease-out forwards 0.2s;
 }
 
-/* Imagens — .fruit 5x maior que .drink */
 .item .drink {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     max-width: 40vw;
-    max-height: 50vh;
+    max-height: 40dvh;
     width: auto;
     height: auto;
     object-fit: contain;
     z-index: 2;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .item .fruit {
@@ -104,13 +112,15 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0.8);
-    max-width: 200vw;   /* 5 × 40vw */
-    max-height: 250vh;  /* 5 × 50vh */
+    max-width: 200vw;
+    max-height: 200dvh;
     width: auto;
     height: auto;
     object-fit: contain;
     z-index: 4;
     opacity: 0;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 .item.active .fruit {
@@ -137,22 +147,24 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 16px;
     transform: translateY(-50%);
-    z-index: 5;
+    z-index: 20;
 }
 
 #prev, #next {
-    width: 44px;
-    height: 44px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border: none;
     border-radius: 50%;
-    cursor: pointer;
+    color: white;
     font-family: monospace;
-    font-size: 1.1rem;
+    font-size: 18px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -160,7 +172,7 @@ body {
 }
 
 #prev:hover, #next:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.25);
 }
 
 .gradient-divider {
@@ -168,13 +180,14 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: 80px;
     background: linear-gradient(to bottom, transparent, #f0efef);
     pointer-events: none;
-    z-index: 10;
 }
 
-/* Seção 2: Texto + Carrossel de Bebidas */
+/* Restante do CSS (Seções 2, 3, 4, footer, etc.) */
+/* (Seu CSS existente a partir da .new-page em diante — sem mudanças) */
+
 .new-page {
     background: #f0efef;
     padding: 4rem 1.5rem;
@@ -267,7 +280,6 @@ body {
     margin-top: 2.5rem;
 }
 
-/* Seção 3: História */
 .history-page {
     background: #f0efef;
     padding: 4rem 1.5rem;
@@ -339,7 +351,6 @@ body {
     margin-top: 2.5rem;
 }
 
-/* Seção 4: Localização */
 .location-page {
     background: #f0efef;
     padding: 4rem 1.5rem;
@@ -404,7 +415,6 @@ body {
     filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
 }
 
-/* Rodapé */
 .dynamic-footer {
     padding: 2.2rem 1.5rem 1.2rem;
     color: white;
@@ -476,7 +486,6 @@ body {
     color: #fff;
 }
 
-/* Botão Novidades */
 .novidades-wrapper {
     width: 100%;
     display: flex;
@@ -503,7 +512,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.22);
 }
 
-/* Overlays */
 .login-overlay {
     position: fixed;
     top: 0;
@@ -650,7 +658,6 @@ body {
     opacity: 0.92;
 }
 
-/* Mobile */
 @media (max-width: 768px) {
     .history-wrapper, .location-wrapper {
         flex-direction: column;
@@ -703,8 +710,8 @@ body {
         padding: 0 12px;
     }
     #prev, #next {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
     }
 }

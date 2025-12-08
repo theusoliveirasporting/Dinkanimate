@@ -1,6 +1,5 @@
 const TRANSITION_MS = 300;
 
-// === Estado centralizado ===
 const FLAVORS = [
     { name: 'morango', color: '#EA3D41' },
     { name: 'abacate', color: '#2D5643' },
@@ -12,7 +11,6 @@ let currentSlide = 0;
 let currentHistorySlide = 0;
 let map = null;
 
-// === Atualiza rodapé e texto ===
 function updateActiveFlavor(index) {
     const footer = document.querySelector('.dynamic-footer');
     const textContent = document.querySelector('.text-content');
@@ -20,7 +18,10 @@ function updateActiveFlavor(index) {
     textContent.setAttribute('data-active', FLAVORS[index].name);
 }
 
-// === Carrossel Principal ===
+// Remove FOUC
+document.documentElement.classList.remove('js-loading');
+
+// Carrossel Principal
 const list = document.querySelectorAll('.item');
 const next = document.getElementById('next');
 const prev = document.getElementById('prev');
@@ -39,7 +40,7 @@ prev.onclick = () => {
     updateActiveFlavor(activeIndex);
 };
 
-// === Overlays ===
+// Overlays
 const loginOverlay = document.getElementById('loginOverlay');
 const signupOverlay = document.getElementById('signupOverlay');
 const loginButton = document.getElementById('loginButton');
@@ -78,7 +79,7 @@ loginFromSignup.addEventListener('click', (e) => {
     setTimeout(() => showOverlay(loginOverlay), TRANSITION_MS);
 });
 
-// === Carrossel de Bebidas ===
+// Carrossel Bebidas
 const slides = document.querySelectorAll('.beverage-carousel .slide');
 
 function rotateBeverages() {
@@ -96,7 +97,7 @@ function rotateBeverages() {
 setInterval(rotateBeverages, 3000);
 rotateBeverages();
 
-// === Carrossel da História ===
+// Carrossel História
 const historySlides = document.querySelectorAll('.history-slide');
 
 function rotateHistory() {
@@ -108,7 +109,7 @@ function rotateHistory() {
 setInterval(rotateHistory, 1200);
 rotateHistory();
 
-// === Mapa ===
+// Mapa
 function initMap() {
     if (!document.getElementById('world-map')) return;
 
@@ -159,7 +160,6 @@ function resizeMap() {
     }
 }
 
-// === Inicialização ===
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
     updateActiveFlavor(activeIndex);
