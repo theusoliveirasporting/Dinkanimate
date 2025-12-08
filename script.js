@@ -1,32 +1,42 @@
 const TRANSITION_MS = 300;
 
+// === Estado centralizado ===
+const FLAVORS = [
+    { name: 'morango', color: '#EA3D41' },
+    { name: 'abacate', color: '#2D5643' },
+    { name: 'laranja', color: '#E7A043' }
+];
+
+let activeIndex = 0;
+let currentSlide = 0;
+let currentHistorySlide = 0;
+let map = null;
+
+// === Atualiza rodapé e texto ===
+function updateActiveFlavor(index) {
+    const footer = document.querySelector('.dynamic-footer');
+    const textContent = document.querySelector('.text-content');
+    footer.setAttribute('data-active', FLAVORS[index].name);
+    textContent.setAttribute('data-active', FLAVORS[index].name);
+}
+
 // === Carrossel Principal ===
 const list = document.querySelectorAll('.item');
 const next = document.getElementById('next');
 const prev = document.getElementById('prev');
-let active = 0;
-
-// === Atualiza rodapé dinâmico ===
-function updateFooter(activeIndex) {
-    const footer = document.querySelector('.dynamic-footer');
-    const colors = ['morango', 'abacate', 'laranja'];
-    footer.setAttribute('data-active', colors[activeIndex]);
-}
 
 next.onclick = () => {
-    const activeOld = document.querySelector('.item.active');
-    if (activeOld) activeOld.classList.remove('active');
-    active = active >= list.length - 1 ? 0 : active + 1;
-    list[active].classList.add('active');
-    updateFooter(active);
+    list[activeIndex].classList.remove('active');
+    activeIndex = activeIndex >= list.length - 1 ? 0 : activeIndex + 1;
+    list[activeIndex].classList.add('active');
+    updateActiveFlavor(activeIndex);
 };
 
 prev.onclick = () => {
-    const activeOld = document.querySelector('.item.active');
-    if (activeOld) activeOld.classList.remove('active');
-    active = active <= 0 ? list.length - 1 : active - 1;
-    list[active].classList.add('active');
-    updateFooter(active);
+    list[activeIndex].classList.remove('active');
+    activeIndex = activeIndex <= 0 ? list.length - 1 : activeIndex - 1;
+    list[activeIndex].classList.add('active');
+    updateActiveFlavor(activeIndex);
 };
 
 // === Overlays ===
@@ -40,16 +50,15 @@ const loginFromSignup = document.getElementById('loginFromSignup');
 
 const hideOverlay = (overlay) => {
     overlay.style.opacity = '0';
-    setTimeout(() => {
-        overlay.classList.add('hidden');
-    }, TRANSITION_MS);
+    overlay.style.visibility = 'hidden';
+    setTimeout(() => overlay.classList.add('hidden'), TRANSITION_MS);
 };
 
 const showOverlay = (overlay) => {
     overlay.classList.remove('hidden');
-    // small timeout to ensure CSS transition (if present) will run
     requestAnimationFrame(() => {
         overlay.style.opacity = '1';
+        overlay.style.visibility = 'visible';
     });
 };
 
@@ -69,23 +78,11 @@ loginFromSignup.addEventListener('click', (e) => {
     setTimeout(() => showOverlay(loginOverlay), TRANSITION_MS);
 });
 
-// === Carrossel de Bebidas (3D em todas as telas) ===
+// === Carrossel de Bebidas ===
 const slides = document.querySelectorAll('.beverage-carousel .slide');
-const textContent = document.querySelector('.text-content');
-let currentSlide = 0;
-
-const drinkData = [
-    { name: 'morango', color: '#EA3D41' },
-    { name: 'abacate', color: '#2D5643' },
-    { name: 'laranja', color: '#E7A043' }
-];
 
 function rotateBeverages() {
-    slides.forEach(s => {
-        s.classList.remove('active', 'prev', 'next');
-        void s.offsetWidth;
-    });
-    
+    slides.forEach(s => s.classList.remove('active', 'prev', 'next'));
     slides[currentSlide].classList.add('active');
     
     const nextIndex = (currentSlide + 1) % slides.length;
@@ -93,16 +90,14 @@ function rotateBeverages() {
     slides[nextIndex].classList.add('next');
     slides[prevIndex].classList.add('prev');
     
-    textContent.setAttribute('data-active', drinkData[currentSlide].name);
     currentSlide = nextIndex;
 }
 
 setInterval(rotateBeverages, 3000);
 rotateBeverages();
 
-// === Carrossel Automático da História (1.2s) ===
+// === Carrossel da História ===
 const historySlides = document.querySelectorAll('.history-slide');
-let currentHistorySlide = 0;
 
 function rotateHistory() {
     historySlides.forEach(slide => slide.classList.remove('active'));
@@ -113,60 +108,74 @@ function rotateHistory() {
 setInterval(rotateHistory, 1200);
 rotateHistory();
 
-// === Mapa-Múndi Responsivo ===
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('world-map')) {
-        const isMobile = window.innerWidth <= 768;
-        const zoomLevel = isMobile ? 2 : 3;
-        
-        const map = L.map('world-map').setView([-23.5505, -46.6333], zoomLevel);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        const iconSize = isMobile ? [40, 40] : [32, 32];
-        const customIcon = L.divIcon({
-            html: `<div style="
-                width: ${iconSize[0]}px;
-                height: ${iconSize[1]}px;
-                background: #EA3D41;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-weight: bold;
-                box-shadow: 0 4px 12px rgba(234, 61, 65, 0.4);
-                border: 3px solid white;
-                font-size: ${isMobile ? '1.2rem' : '1rem'};
-            ">📍</div>`,
-            className: '',
-            iconSize: iconSize,
-            iconAnchor: [iconSize[0]/2, iconSize[1]/2]
-        });
-        
-        L.marker([-23.5505, -46.6333], { icon: customIcon })
-            .addTo(map)
-            .bindPopup('Drink Animate<br>Av. Paulista, 1000')
-            .openPopup();
-    }
-    
-    // Inicializa rodapé
-    updateFooter(active);
+// === Mapa ===
+function initMap() {
+    if (!document.getElementById('world-map')) return;
 
-    // === Liga botão "Novidades" para abrir login ===
+    const isMobile = window.innerWidth <= 768;
+    const zoomLevel = isMobile ? 2 : 3;
+
+    map = L.map('world-map').setView([-23.5505, -46.6333], zoomLevel);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const iconSize = isMobile ? [40, 40] : [32, 32];
+    const customIcon = L.divIcon({
+        html: `<div style="
+            width: ${iconSize[0]}px;
+            height: ${iconSize[1]}px;
+            background: #EA3D41;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(234, 61, 65, 0.4);
+            border: 3px solid white;
+            font-size: ${isMobile ? '1.2rem' : '1rem'};
+        ">📍</div>`,
+        className: '',
+        iconSize: iconSize,
+        iconAnchor: [iconSize[0]/2, iconSize[1]/2]
+    });
+
+    L.marker([-23.5505, -46.6333], { icon: customIcon })
+        .addTo(map)
+        .bindPopup('Drink Animate<br>Av. Paulista, 1000')
+        .openPopup();
+}
+
+function resizeMap() {
+    if (map) {
+        const container = document.getElementById('world-map');
+        if (container) {
+            const width = container.clientWidth;
+            container.style.height = `${Math.min(width, 400)}px`;
+            map.invalidateSize();
+        }
+    }
+}
+
+// === Inicialização ===
+document.addEventListener('DOMContentLoaded', () => {
+    initMap();
+    updateActiveFlavor(activeIndex);
+
+    window.addEventListener('resize', resizeMap);
+    resizeMap();
+
     const btnNovidades = document.getElementById('btnNovidades');
     if (btnNovidades) {
         btnNovidades.addEventListener('click', (e) => {
             e.preventDefault();
-            // abre o overlay de login usando a função já existente
             showOverlay(loginOverlay);
-            // opcional: você pode focar o campo de email automaticamente
-            const emailInput = document.getElementById('email-login');
-            if (emailInput) {
-                setTimeout(() => emailInput.focus(), 200);
-            }
+            setTimeout(() => {
+                const emailInput = document.getElementById('email-login');
+                if (emailInput) emailInput.focus();
+            }, 200);
         });
     }
 });
