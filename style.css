@@ -46,9 +46,8 @@ body {
     background: linear-gradient(135deg, var(--background), rgba(0,0,0,0.4));
 }
 
-/* === FIX MOBILE: Centralizar e aumentar imagens no carrossel principal === */
+/* === FIX MOBILE: Carrossel Principal - Desempenho e Animações Otimizadas === */
 
-/* Ajusta o container do item para garantir centralização */
 .carousel {
     height: 100dvh;
     overflow: hidden;
@@ -58,7 +57,6 @@ body {
     align-items: center;
 }
 
-/* Centraliza os elementos dentro do item ativo */
 .item {
     position: absolute;
     top: 0;
@@ -69,10 +67,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Garante que apenas o item ativo seja visível */
     opacity: 0;
     visibility: hidden;
+    /* Garante que mudanças de opacidade e visibilidade sejam suaves */
     transition: opacity 0.3s ease, visibility 0.3s;
+    /* Força aceleração de hardware */
+    transform: translateZ(0);
+    will-change: opacity, visibility;
 }
 
 .item.active {
@@ -80,52 +81,6 @@ body {
     visibility: visible;
 }
 
-/* Estilo para a fruta (fundo) */
-.item .fruit {
-    position: absolute; /* Posicionamento absoluto dentro do .item */
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.8); /* Centraliza e aplica escala inicial */
-    max-width: 90vw; /* Limite de largura */
-    max-height: 90vh; /* Limite de altura */
-    width: auto;
-    height: auto;
-    object-fit: contain; /* Mantém proporção */
-    z-index: 4; /* Fica atrás da lata */
-    opacity: 0; /* Começa invisível */
-    will-change: transform, opacity; /* Performance */
-    backface-visibility: hidden; /* Evita flicker */
-}
-
-.item.active .fruit {
-    animation: fadeInFruit 0.7s ease-out forwards 0.2s; /* Animação original */
-}
-
-/* Estilo para a lata (frente) */
-.item .drink {
-    position: absolute; /* Posicionamento absoluto dentro do .item */
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%); /* Centraliza */
-    max-width: 80vw; /* Aumenta o tamanho limite */
-    max-height: 80vh; /* Aumenta o tamanho limite */
-    width: auto;
-    height: auto;
-    object-fit: contain; /* Mantém proporção */
-    z-index: 2; /* Fica na frente da fruta */
-    will-change: transform; /* Performance */
-    backface-visibility: hidden; /* Evita flicker */
-}
-
-/* Animação fadeInFruit (mantém a original, mas garante execução) */
-@keyframes fadeInFruit {
-    to {
-        opacity: 1; /* Garante que termine visível */
-        transform: translate(-50%, -50%) scale(1); /* Garante escala final */
-    }
-}
-
-/* Mantém o título centralizado */
 .title {
     font-size: clamp(2.2rem, 16vw, 8rem);
     font-weight: bold;
@@ -139,35 +94,76 @@ body {
     text-overflow: ellipsis;
     max-width: 95vw;
     z-index: 10;
-    opacity: 0;
-    will-change: opacity;
-    backface-visibility: hidden;
-}
-
-/* === FIX MOBILE: Força visibilidade do título imediatamente quando o item é ativo === */
-.item.active .title {
-    opacity: 1 !important; /* Força visibilidade imediata */
-    /* Remova a animação do opacity original, pois agora ela é garantida */
-    /* animation: fadeInTitle 0.7s ease-out forwards 0.2s; */
-    /* Aplique a transformação imediatamente também */
+    /* Garante que o título apareça imediatamente quando o item estiver ativo */
+    opacity: 1 !important;
+    /* Força a transformação imediatamente também */
     transform: translate(-50%, -50%) !important;
-    /* Mantenha a animação da transformação (se quiser o efeito de fade-in com movimento) */
-    animation: fadeInTitle 0.7s ease-out forwards 0.2s;
+    /* Animação apenas para adicionar efeito, não para controlar visibilidade */
+    animation: fadeInTitle 0.7s ease-out forwards;
+    /* Otimiza para GPU */
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden; /* Evita flicker */
 }
 
 /* Mantém a animação original */
 @keyframes fadeInTitle {
     from {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9); /* Exemplo: começa um pouco menor */
+        transform: translate(-50%, -50%) scale(0.9);
     }
     to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1); /* Termina no tamanho normal */
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
-/* Botões de navegação: tamanho mínimo para toque */
+.item .fruit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* Força centralização e aceleração de hardware */
+    transform: translate(-50%, -50%) scale(0.8) translateZ(0);
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    z-index: 4;
+    opacity: 0;
+    /* Otimiza para GPU */
+    will-change: transform, opacity;
+    backface-visibility: hidden; /* Evita flicker */
+}
+
+.item.active .fruit {
+    /* Animação otimizada */
+    animation: fadeInFruit 0.7s ease-out forwards 0.2s;
+}
+
+@keyframes fadeInFruit {
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) translateZ(0); /* Mantém translateZ(0) */
+    }
+}
+
+.item .drink {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) translateZ(0); /* Força aceleração de hardware */
+    max-width: 80vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    z-index: 2;
+    /* Otimiza para GPU */
+    will-change: transform;
+    backface-visibility: hidden; /* Evita flicker */
+}
+
 .arrow {
     position: absolute;
     top: 50%;

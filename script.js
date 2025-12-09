@@ -21,7 +21,7 @@ function updateActiveFlavor(index) {
 // Remove FOUC
 document.documentElement.classList.remove('js-loading');
 
-// === FIX MOBILE: Atualização centralizada do carrossel principal ===
+// === FIX MOBILE: Atualização centralizada e otimizada do carrossel principal ===
 function activateItem(index) {
     // Remove a classe 'active' de todos os itens
     document.querySelectorAll('.item').forEach((item, i) => {
@@ -39,13 +39,16 @@ const prev = document.getElementById('prev');
 
 next.onclick = () => {
     activeIndex = activeIndex >= list.length - 1 ? 0 : activeIndex + 1;
-    activateItem(activeIndex); // Usa a nova função centralizada
+    // Use setTimeout para garantir que a thread de renderização não seja bloqueada
+    setTimeout(() => activateItem(activeIndex), 10);
 };
 
 prev.onclick = () => {
     activeIndex = activeIndex <= 0 ? list.length - 1 : activeIndex - 1;
-    activateItem(activeIndex); // Usa a nova função centralizada
+    // Use setTimeout para garantir que a thread de renderização não seja bloqueada
+    setTimeout(() => activateItem(activeIndex), 10);
 };
+
 
 // Overlays
 const loginOverlay = document.getElementById('loginOverlay');
