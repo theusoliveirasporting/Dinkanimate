@@ -144,15 +144,26 @@ body {
     backface-visibility: hidden;
 }
 
+/* === FIX MOBILE: Força visibilidade do título imediatamente quando o item é ativo === */
 .item.active .title {
+    opacity: 1 !important; /* Força visibilidade imediata */
+    /* Remova a animação do opacity original, pois agora ela é garantida */
+    /* animation: fadeInTitle 0.7s ease-out forwards 0.2s; */
+    /* Aplique a transformação imediatamente também */
+    transform: translate(-50%, -50%) !important;
+    /* Mantenha a animação da transformação (se quiser o efeito de fade-in com movimento) */
     animation: fadeInTitle 0.7s ease-out forwards 0.2s;
 }
 
-/* Mantém a animação do título */
+/* Mantém a animação original */
 @keyframes fadeInTitle {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9); /* Exemplo: começa um pouco menor */
+    }
     to {
         opacity: 1;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) scale(1); /* Termina no tamanho normal */
     }
 }
 

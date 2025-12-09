@@ -21,23 +21,14 @@ function updateActiveFlavor(index) {
 // Remove FOUC
 document.documentElement.classList.remove('js-loading');
 
-// Função para ativar item e garantir visibilidade do título
+// === FIX MOBILE: Atualização centralizada do carrossel principal ===
 function activateItem(index) {
-    const items = document.querySelectorAll('.item');
-    items.forEach((item, i) => {
+    // Remove a classe 'active' de todos os itens
+    document.querySelectorAll('.item').forEach((item, i) => {
         item.classList.toggle('active', i === index);
     });
 
-    // Garante que o título do item ativo seja visível
-    const titles = document.querySelectorAll('.title');
-    titles.forEach((title, i) => {
-        if (i === index) {
-            title.style.opacity = '1'; // Força visibilidade imediata
-        } else {
-            title.style.opacity = '0'; // Garante invisibilidade dos outros
-        }
-    });
-
+    // Atualiza o rodapé e o texto imediatamente após ativar o item
     updateActiveFlavor(index);
 }
 
@@ -48,12 +39,12 @@ const prev = document.getElementById('prev');
 
 next.onclick = () => {
     activeIndex = activeIndex >= list.length - 1 ? 0 : activeIndex + 1;
-    activateItem(activeIndex); // Usa a nova função
+    activateItem(activeIndex); // Usa a nova função centralizada
 };
 
 prev.onclick = () => {
     activeIndex = activeIndex <= 0 ? list.length - 1 : activeIndex - 1;
-    activateItem(activeIndex); // Usa a nova função
+    activateItem(activeIndex); // Usa a nova função centralizada
 };
 
 // Overlays
