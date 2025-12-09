@@ -31,15 +31,17 @@ const list = document.querySelectorAll('.item');
 const next = document.getElementById('next');
 const prev = document.getElementById('prev');
 
+// --- CORREÇÃO APLICADA: REMOÇÃO DO setTimeout ---
 next.onclick = () => {
     activeIndex = activeIndex >= list.length - 1 ? 0 : activeIndex + 1;
-    setTimeout(() => activateItem(activeIndex), 10);
+    activateItem(activeIndex);
 };
 
 prev.onclick = () => {
     activeIndex = activeIndex <= 0 ? list.length - 1 : activeIndex - 1;
-    setTimeout(() => activateItem(activeIndex), 10);
+    activateItem(activeIndex);
 };
+// ------------------------------------------------
 
 const loginOverlay = document.getElementById('loginOverlay');
 const signupOverlay = document.getElementById('signupOverlay');

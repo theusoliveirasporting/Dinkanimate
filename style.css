@@ -46,7 +46,7 @@ body {
     background: linear-gradient(135deg, var(--background), rgba(0,0,0,0.4));
 }
 
-/* === FIX MOBILE APLICADO: Carrossel Principal === */
+/* === Carrossel Principal === */
 
 .carousel {
     height: 100dvh;
@@ -70,7 +70,7 @@ body {
 
     opacity: 0;
 
-    /* REMOVIDO O visibility: hidden QUE QUEBRA O MOBILE */
+    /* REMOVIDO O visibility: hidden QUE QUEBRA O MOBILE (CORREÇÃO ANTERIOR) */
     /* visibility: hidden; */
 
     transition: opacity 0.3s ease, visibility 0.3s;
@@ -79,7 +79,7 @@ body {
     will-change: opacity, visibility;
 }
 
-/* NOVO FIX: controla a visibilidade corretamente */
+/* FIX: controla a visibilidade corretamente */
 .item:not(.active) {
     visibility: hidden;
 }
@@ -209,7 +209,6 @@ body {
 
 /* ========================== */
 /* RESTANTE DO SEU CSS        */
-/* (NÃO REMOVI NADA)          */
 /* ========================== */
 
 .new-page {
@@ -666,14 +665,7 @@ body {
     border: 0;
 }
 
-/* ❌ BLOCO REMOVIDO (QUEBRAVA O MOBILE)
-@media (prefers-reduced-motion: reduce) {
-    .title, .fruit, .slide, .text-content h2, .item, .history-slide {
-        animation: none !important;
-        transition: none !important;
-    }
-}
-*/
+/* O BLOCO @media (prefers-reduced-motion: reduce) FOI REMOVIDO PARA GARANTIR ANIMAÇÕES NO MOBILE (CORREÇÃO ANTERIOR) */
 
 .social-icons a svg {
     transition: transform .25s ease, opacity .25s ease;
@@ -722,6 +714,7 @@ body {
     }
 
     .slide, .slide.next, .slide.prev {
+        /* Garante que o carrossel de bebidas fique centrado e com transição de opacidade suave no mobile */
         transform: translate(-50%, -50%) !important;
         transition: opacity 0.5s ease;
     }
