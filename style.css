@@ -46,13 +46,19 @@ body {
     background: linear-gradient(135deg, var(--background), rgba(0,0,0,0.4));
 }
 
-/* Seção 1: Carrossel Principal – MOBILE OPTIMIZED */
+/* === FIX MOBILE: Centralizar e aumentar imagens no carrossel principal === */
+
+/* Ajusta o container do item para garantir centralização */
 .carousel {
     height: 100dvh;
     overflow: hidden;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Centraliza os elementos dentro do item ativo */
 .item {
     position: absolute;
     top: 0;
@@ -60,23 +66,73 @@ body {
     width: 100%;
     height: 100%;
     background-color: var(--background);
-    visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Garante que apenas o item ativo seja visível */
     opacity: 0;
-    transition: opacity 0.7s ease-out;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
 }
 
 .item.active {
-    visibility: visible;
     opacity: 1;
+    visibility: visible;
 }
 
+/* Estilo para a fruta (fundo) */
+.item .fruit {
+    position: absolute; /* Posicionamento absoluto dentro do .item */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.8); /* Centraliza e aplica escala inicial */
+    max-width: 90vw; /* Limite de largura */
+    max-height: 90vh; /* Limite de altura */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Mantém proporção */
+    z-index: 4; /* Fica atrás da lata */
+    opacity: 0; /* Começa invisível */
+    will-change: transform, opacity; /* Performance */
+    backface-visibility: hidden; /* Evita flicker */
+}
+
+.item.active .fruit {
+    animation: fadeInFruit 0.7s ease-out forwards 0.2s; /* Animação original */
+}
+
+/* Estilo para a lata (frente) */
+.item .drink {
+    position: absolute; /* Posicionamento absoluto dentro do .item */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Centraliza */
+    max-width: 80vw; /* Aumenta o tamanho limite */
+    max-height: 80vh; /* Aumenta o tamanho limite */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Mantém proporção */
+    z-index: 2; /* Fica na frente da fruta */
+    will-change: transform; /* Performance */
+    backface-visibility: hidden; /* Evita flicker */
+}
+
+/* Animação fadeInFruit (mantém a original, mas garante execução) */
+@keyframes fadeInFruit {
+    to {
+        opacity: 1; /* Garante que termine visível */
+        transform: translate(-50%, -50%) scale(1); /* Garante escala final */
+    }
+}
+
+/* Mantém o título centralizado */
 .title {
     font-size: clamp(2.2rem, 16vw, 8rem);
     font-weight: bold;
     text-align: center;
     position: absolute;
     left: 50%;
-    top: 8%;
+    top: 10%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
     overflow: hidden;
@@ -92,48 +148,7 @@ body {
     animation: fadeInTitle 0.7s ease-out forwards 0.2s;
 }
 
-.item .drink {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 40vw;
-    max-height: 40dvh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    z-index: 2;
-    will-change: transform;
-    backface-visibility: hidden;
-}
-
-.item .fruit {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    max-width: 200vw;
-    max-height: 200dvh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    z-index: 4;
-    opacity: 0;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-}
-
-.item.active .fruit {
-    animation: fadeInFruit 0.7s ease-out forwards;
-}
-
-@keyframes fadeInFruit {
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
+/* Mantém a animação do título */
 @keyframes fadeInTitle {
     to {
         opacity: 1;
@@ -141,6 +156,7 @@ body {
     }
 }
 
+/* Botões de navegação: tamanho mínimo para toque */
 .arrow {
     position: absolute;
     top: 50%;
@@ -186,8 +202,6 @@ body {
 }
 
 /* Restante do CSS (Seções 2, 3, 4, footer, etc.) */
-/* (Seu CSS existente a partir da .new-page em diante — sem mudanças) */
-
 .new-page {
     background: #f0efef;
     padding: 4rem 1.5rem;
