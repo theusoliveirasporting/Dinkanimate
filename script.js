@@ -18,39 +18,29 @@ function updateActiveFlavor(index) {
     textContent.setAttribute('data-active', FLAVORS[index].name);
 }
 
-// Remove FOUC
 document.documentElement.classList.remove('js-loading');
 
-// === FIX MOBILE: Atualização centralizada e otimizada do carrossel principal ===
 function activateItem(index) {
-    // Remove a classe 'active' de todos os itens
     document.querySelectorAll('.item').forEach((item, i) => {
         item.classList.toggle('active', i === index);
     });
-
-    // Atualiza o rodapé e o texto imediatamente após ativar o item
     updateActiveFlavor(index);
 }
 
-// Carrossel Principal
-const list = document.querySelectorAll('.item'); // Mantém a referência original
+const list = document.querySelectorAll('.item');
 const next = document.getElementById('next');
 const prev = document.getElementById('prev');
 
 next.onclick = () => {
     activeIndex = activeIndex >= list.length - 1 ? 0 : activeIndex + 1;
-    // Use setTimeout para garantir que a thread de renderização não seja bloqueada
     setTimeout(() => activateItem(activeIndex), 10);
 };
 
 prev.onclick = () => {
     activeIndex = activeIndex <= 0 ? list.length - 1 : activeIndex - 1;
-    // Use setTimeout para garantir que a thread de renderização não seja bloqueada
     setTimeout(() => activateItem(activeIndex), 10);
 };
 
-
-// Overlays
 const loginOverlay = document.getElementById('loginOverlay');
 const signupOverlay = document.getElementById('signupOverlay');
 const loginButton = document.getElementById('loginButton');
@@ -89,7 +79,6 @@ loginFromSignup.addEventListener('click', (e) => {
     setTimeout(() => showOverlay(loginOverlay), TRANSITION_MS);
 });
 
-// Carrossel Bebidas
 const slides = document.querySelectorAll('.beverage-carousel .slide');
 
 function rotateBeverages() {
@@ -107,7 +96,6 @@ function rotateBeverages() {
 setInterval(rotateBeverages, 3000);
 rotateBeverages();
 
-// Carrossel História
 const historySlides = document.querySelectorAll('.history-slide');
 
 function rotateHistory() {
@@ -119,7 +107,6 @@ function rotateHistory() {
 setInterval(rotateHistory, 1200);
 rotateHistory();
 
-// Mapa
 function initMap() {
     if (!document.getElementById('world-map')) return;
 
@@ -129,7 +116,7 @@ function initMap() {
     map = L.map('world-map').setView([-23.5505, -46.6333], zoomLevel);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     const iconSize = isMobile ? [40, 40] : [32, 32];
